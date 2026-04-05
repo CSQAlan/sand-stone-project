@@ -311,7 +311,7 @@ onUnmounted(() => {
 
 .control-header h3 {
   margin: 0;
-  color: #00a8ff;
+  color: #ffffff;
 }
 
 .control-body {

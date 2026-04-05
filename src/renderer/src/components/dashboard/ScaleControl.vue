@@ -298,7 +298,7 @@ export default {
 }
 
 .scale-header h2 {
-  color: #00a8ff;
+  color: #ffffff;
   font-size: 18px;
   margin: 0;
   text-shadow: 0 0 10px rgba(0, 168, 255, 0.3);

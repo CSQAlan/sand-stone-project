@@ -262,7 +262,7 @@
               </div>
               <div class="bottom-progress-title" style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 10px;">
                   <el-icon class="header-icon"><TrendCharts /></el-icon>
-                  <h2 style="color: #00a8ff; margin: 0;">实验进度</h2>
+                  <h2 style="color: #ffffff; margin: 0;">实验进度</h2>
               </div>
           </div>
         </div>
@@ -1331,7 +1331,7 @@ export default {
 }
 
 .cpu-icon {
-  color: #00a8ff;
+  color: #ffffff;
 }
 
 .memory-icon {
@@ -1365,11 +1365,11 @@ export default {
 .dashboard-header h1 {
   margin: 0;
   color: #00a8ff;
-  font-size: 24px;
-  font-weight: 500;
+  font-size: 32px;
+  font-weight: 700;
   margin: 0;
   text-shadow: 0 0 15px rgba(0, 168, 255, 0.5);
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
 .system-status {
@@ -1502,7 +1502,7 @@ export default {
 }
 
 .progress-header h2 {
-  color: #00a8ff;
+  color: #ffffff;
   font-size: 18px;
   font-weight: 500;
   margin: 0;
@@ -1559,7 +1559,7 @@ export default {
 }
 
 .feeding-section h2 {
-  color: #00a8ff;
+  color: #ffffff;
   font-size: 18px;
   font-weight: 500;
   margin: 0;
@@ -1590,7 +1590,7 @@ export default {
 }
 
 .photos-section h2 {
-  color: #00a8ff;
+  color: #ffffff;
   font-size: 18px;
   font-weight: 500;
   margin: 0;
@@ -1717,7 +1717,7 @@ export default {
 }
 
 .console-section h2 {
-  color: #00a8ff;
+  color: #ffffff;
   font-size: 18px;
   font-weight: 500;
   margin: 0;
@@ -1839,7 +1839,7 @@ body {
 }
 
 .control-header h2 {
-  color: #00a8ff;
+  color: #ffffff;
   font-size: 18px;
   font-weight: 500;
   margin: 0;
@@ -1924,7 +1924,7 @@ body {
 :deep(.el-input-number .el-input-number__increase) {
   background-color: rgba(0, 145, 255, 0.1);
   border-color: rgba(0, 145, 255, 0.4);
-  color: #00a8ff;
+  color: #ffffff;
 }
 
 :deep(.el-input-number .el-icon) {
