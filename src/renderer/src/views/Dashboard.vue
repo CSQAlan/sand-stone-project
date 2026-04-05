@@ -55,6 +55,7 @@
       <div class="left-panel">
         <div class="control-section">
           <div class="control-header">
+            <el-icon class="header-icon"><Setting /></el-icon>
             <h2>实验控制</h2>
           </div>
           <div class="control-body">
@@ -153,7 +154,10 @@
         <div class="top-row">
           <div class="progress-section">
             <div class="progress-header">
-              <h2>实验进度</h2>
+              <div class="header-title-wrap">
+                <el-icon class="header-icon"><Timer /></el-icon>
+                <h2>实验进度</h2>
+              </div>
               <div class="progress-stats">
                 <div class="stat-item">
                   <div class="stat-label">已完成组数</div>
@@ -175,7 +179,10 @@
           </div>
 
           <div class="console-section">
-            <h2>控制台监控</h2>
+            <div class="console-title-wrap">
+              <el-icon class="header-icon"><Platform /></el-icon>
+              <h2>控制台监控</h2>
+            </div>
             <div class="console-container">
               <div class="console-header">
                 <div class="console-tabs">
@@ -205,7 +212,10 @@
 
         <div class="bottom-row">
           <div class="photos-section" style="margin-top: 50px;">
-            <h2>最新照片</h2>
+            <div class="photos-header">
+              <el-icon class="header-icon"><Picture /></el-icon>
+              <h2>最新照片</h2>
+            </div>
             <div class="photo-grid">
               <div v-for="(photo, index) in latestPhotos" :key="index" class="photo-item">
                 <div class="photo-placeholder" v-if="!photo.path">
@@ -239,7 +249,8 @@
           </div>
           -->
           <div class="section-container">
-              <div class="section-header" style="margin-top: 50px;">
+              <div class="section-header" style="margin-top: 50px; display: flex; align-items: center; gap: 8px;">
+                  <el-icon class="header-icon"><Box /></el-icon>
                   <h3>设备模型</h3>
               </div>
               <div style="height: 450px">
@@ -249,7 +260,10 @@
                   <div class="progress" :style="{ width: modelProgress + '%' }"></div>
 
               </div>
-              <h2 style="justify-content: center;text-align: center;color: #00a8ff;">实验进度</h2>
+              <div class="bottom-progress-title" style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 10px;">
+                  <el-icon class="header-icon"><TrendCharts /></el-icon>
+                  <h2 style="color: #00a8ff; margin: 0;">实验进度</h2>
+              </div>
           </div>
         </div>
       </div>
@@ -292,7 +306,12 @@ import {
   Download,
   DataAnalysis,
   Document,
-  SwitchButton
+  SwitchButton,
+  Setting,
+  Timer,
+  Platform,
+  Box,
+  TrendCharts
 } from '@element-plus/icons-vue'
 import ProgressChart from '../components/dashboard/ProgressChart.vue'
 import FeedingChart from '../components/dashboard/FeedingChart.vue'
@@ -1796,6 +1815,22 @@ body {
   flex-direction: column;
   gap: 16px;
   border: 1px solid rgba(0, 145, 255, 0.15);
+  margin-bottom: 16px;
+}
+
+.header-icon {
+  font-size: 20px;
+  color: #00a8ff;
+  filter: drop-shadow(0 0 5px rgba(0, 168, 255, 0.5));
+}
+
+.control-header,
+.header-title-wrap,
+.console-title-wrap,
+.photos-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin-bottom: 16px;
 }
 

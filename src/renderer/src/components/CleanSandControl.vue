@@ -1,7 +1,10 @@
 <template>
   <div class="clean-sand-control">
     <div class="control-header">
-      <h3>清砂控制</h3>
+      <div class="header-title-wrap">
+        <el-icon class="header-icon"><Brush /></el-icon>
+        <h3>清砂控制</h3>
+      </div>
       <el-tag :type="statusType" effect="dark">{{ statusText }}</el-tag>
     </div>
 
@@ -292,6 +295,18 @@ onUnmounted(() => {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+}
+
+.header-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-icon {
+  font-size: 20px;
+  color: #00a8ff;
+  filter: drop-shadow(0 0 5px rgba(0, 168, 255, 0.5));
 }
 
 .control-header h3 {

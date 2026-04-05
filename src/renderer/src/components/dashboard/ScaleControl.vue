@@ -1,7 +1,10 @@
 <template>
   <div class="scale-control">
     <div class="scale-header">
-      <h2>高精度压力传感器</h2>
+      <div class="header-title-wrap">
+        <el-icon class="header-icon"><Odometer /></el-icon>
+        <h2>高精度压力传感器</h2>
+      </div>
       <div class="scale-status" :class="{ connected: scaleStatus.is_connected }">
         {{ scaleStatus.is_connected ? '已连接' : '未连接' }}
       </div>
@@ -80,9 +83,13 @@ import {
   calibrateGain,
   getWeight
 } from '../../api'
+import { Odometer } from '@element-plus/icons-vue'
 
 export default {
   name: 'ScaleControl',
+  components: {
+    Odometer
+  },
   setup() {
     const availablePorts = ref([])
     const selectedPort = ref('')
@@ -276,6 +283,18 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+}
+
+.header-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-icon {
+  font-size: 20px;
+  color: #00a8ff;
+  filter: drop-shadow(0 0 5px rgba(0, 168, 255, 0.5));
 }
 
 .scale-header h2 {
