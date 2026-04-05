@@ -1892,6 +1892,19 @@ body {
   color: #00a8ff;
 }
 
+:deep(.el-input-number .el-icon) {
+  font-size: 16px; /* 稍微加大图标 */
+}
+
+:deep(.el-input-number .el-icon svg) {
+  stroke: currentColor !important;
+  stroke-width: 3px !important; /* 显著加粗 */
+}
+
+:deep(.el-input-number .el-icon svg path) {
+  stroke-width: 3px !important;
+}
+
 :deep(.el-input-number .el-input-number__decrease:hover),
 :deep(.el-input-number .el-input-number__increase:hover) {
   color: #ffffff;

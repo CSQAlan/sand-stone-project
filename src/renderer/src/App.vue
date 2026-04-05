@@ -54,75 +54,46 @@ body {
 
 /* Unified Tech Button Style */
 .tech-button {
-  background: rgba(0, 145, 255, 0.1) !important;
-  border: 1px solid rgba(0, 145, 255, 0.4) !important;
-  color: #00a8ff !important;
-  text-shadow: 0 0 8px rgba(0, 168, 255, 0.5);
-  box-shadow: inset 0 0 15px rgba(0, 145, 255, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  background: rgba(0, 145, 255, 0.15) !important;
+  border: 2px solid rgba(0, 168, 255, 0.5) !important;
+  color: #00d2ff !important; /* 恢复为亮蓝色 */
+  text-shadow: none !important;
+  box-shadow: inset 0 0 10px rgba(0, 168, 255, 0.2) !important;
+  transition: all 0.2s ease !important;
   position: relative;
   overflow: hidden;
-  font-weight: 500;
-  letter-spacing: 1px;
+  font-weight: bold !important;
+  font-size: 16px !important; /* 保留加大字号 */
+  letter-spacing: 1.2px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-}
-
-.tech-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(0, 168, 255, 0.2),
-    transparent
-  );
-  transition: 0.5s;
-}
-
-.tech-button:hover::before {
-  left: 100%;
+  padding: 10px 24px !important;
+  text-transform: uppercase;
 }
 
 .tech-button:hover:not(.is-disabled) {
-  background: rgba(0, 145, 255, 0.2) !important;
-  border-color: #00a8ff !important;
-  box-shadow: 0 0 15px rgba(0, 168, 255, 0.4), inset 0 0 10px rgba(0, 168, 255, 0.2) !important;
-  transform: translateY(-1px);
-}
-
-.tech-button:active:not(.is-disabled) {
-  transform: translateY(1px);
-  box-shadow: 0 0 5px rgba(0, 168, 255, 0.4) !important;
+  background: rgba(0, 145, 255, 0.3) !important;
+  border-color: #00ffff !important;
+  box-shadow: 
+    0 0 15px rgba(0, 210, 255, 0.4), 
+    inset 0 0 10px rgba(0, 210, 255, 0.2) !important;
+  transform: translateY(-2px);
+  color: #ffffff !important; /* 悬停时依然变为纯白以增强交互感 */
 }
 
 /* Specific types */
 .tech-button-success {
-  background: rgba(103, 194, 58, 0.1) !important;
-  border-color: rgba(103, 194, 58, 0.4) !important;
-  color: #67c23a !important;
-}
-.tech-button-success:hover:not(.is-disabled) {
-  background: rgba(103, 194, 58, 0.2) !important;
-  border-color: #67c23a !important;
-  box-shadow: 0 0 15px rgba(103, 194, 58, 0.4) !important;
+  background: rgba(103, 194, 58, 0.15) !important;
+  border-color: rgba(103, 194, 58, 0.5) !important;
+  color: #67c23a !important; /* 恢复为绿色 */
 }
 
 .tech-button-danger {
-  background: rgba(245, 108, 108, 0.1) !important;
-  border-color: rgba(245, 108, 108, 0.4) !important;
-  color: #f56c6c !important;
-}
-.tech-button-danger:hover:not(.is-disabled) {
-  background: rgba(245, 108, 108, 0.2) !important;
-  border-color: #f56c6c !important;
-  box-shadow: 0 0 15px rgba(245, 108, 108, 0.4) !important;
+  background: rgba(245, 108, 108, 0.15) !important;
+  border-color: rgba(245, 108, 108, 0.5) !important;
+  color: #f56c6c !important; /* 恢复为红色 */
 }
 
 .tech-button-info {
