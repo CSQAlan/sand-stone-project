@@ -361,26 +361,45 @@ export default {
 
 :deep(.el-input__wrapper),
 :deep(.el-select .el-input__wrapper) {
-  background: rgba(0, 24, 48, 0.4) !important;
-  border: 1px solid rgba(0, 145, 255, 0.15) !important;
-  box-shadow: none !important;
+  background: rgba(0, 145, 255, 0.1) !important;
+  box-shadow: 0 0 0 1px rgba(0, 145, 255, 0.4) inset !important;
+  border: none !important;
 }
 
 :deep(.el-input__inner) {
-  color: #e6f7ff !important;
+  color: #ffffff !important;
+  font-weight: bold;
+}
+
+:deep(.el-select .el-input .el-select__caret) {
+  color: #00a8ff;
+}
+
+/* 下拉菜单样式 */
+:deep(.el-select__popper.el-popper) {
+  background: #001529 !important;
+  border: 1px solid rgba(0, 145, 255, 0.4) !important;
 }
 
 :deep(.el-select-dropdown__item) {
-  color: #e6f7ff;
+  color: #a5d8ff;
+  font-weight: 500;
 }
 
 :deep(.el-select-dropdown__item.hover),
 :deep(.el-select-dropdown__item:hover) {
-  background: rgba(0, 145, 255, 0.1);
+  background: rgba(0, 145, 255, 0.2) !important;
+  color: #ffffff;
 }
 
 :deep(.el-select-dropdown__item.selected) {
-  background: rgba(0, 145, 255, 0.2);
+  background: rgba(0, 145, 255, 0.3) !important;
   color: #00a8ff;
+  font-weight: bold;
+}
+
+:deep(.el-popper__arrow::before) {
+  background: #001529 !important;
+  border: 1px solid rgba(0, 145, 255, 0.4) !important;
 }
 </style>

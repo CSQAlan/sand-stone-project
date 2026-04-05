@@ -1858,20 +1858,48 @@ body {
 
 :deep(.el-input-number .el-input__inner) {
   text-align: center;
-  color: #00a8ff;
+  color: #ffffff;
   height: 32px;
   font-size: 16px;
+  background-color: transparent !important;
+  font-weight: bold;
+}
+
+:deep(.el-input__wrapper) {
+  background-color: rgba(0, 145, 255, 0.1) !important;
+  box-shadow: 0 0 0 1px rgba(0, 145, 255, 0.4) inset !important;
+  border: none !important;
+}
+
+:deep(.el-input__wrapper.is-focus) {
+  box-shadow: 0 0 8px rgba(0, 168, 255, 0.4), 0 0 0 1px #00a8ff inset !important;
+}
+
+:deep(.el-input__inner) {
+  color: #ffffff !important;
+  font-weight: bold;
+}
+
+:deep(.el-form-item__label) {
+  color: #a5d8ff !important;
+  font-weight: 500;
 }
 
 :deep(.el-input-number .el-input-number__decrease),
 :deep(.el-input-number .el-input-number__increase) {
-  background-color: rgba(0, 24, 48, 0.5);
-  border-color: rgba(0, 145, 255, 0.15);
+  background-color: rgba(0, 145, 255, 0.1);
+  border-color: rgba(0, 145, 255, 0.4);
   color: #00a8ff;
 }
 
+:deep(.el-input-number .el-input-number__decrease:hover),
+:deep(.el-input-number .el-input-number__increase:hover) {
+  color: #ffffff;
+  background-color: rgba(0, 195, 255, 0.3);
+}
+
 :deep(.el-input-number.is-disabled .el-input__wrapper) {
-  background-color: rgba(0, 24, 48, 0.5);
+  background-color: rgba(40, 60, 100, 0.6) !important;
 }
 
 :deep(.el-input-number.is-disabled .el-input__inner) {

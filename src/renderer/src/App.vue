@@ -146,6 +146,35 @@ body {
   box-shadow: none !important;
 }
 
+/* Global Element Plus Select Dropdown Styles */
+.el-select__popper.el-popper {
+  background: #001529 !important;
+  border: 1px solid rgba(0, 145, 255, 0.4) !important;
+  box-shadow: 0 0 15px rgba(0, 145, 255, 0.2) !important;
+}
+
+.el-select__popper.el-popper .el-popper__arrow::before {
+  background: #001529 !important;
+  border: 1px solid rgba(0, 145, 255, 0.4) !important;
+}
+
+.el-select-dropdown__item {
+  color: #a5d8ff !important;
+  font-weight: 500 !important;
+}
+
+.el-select-dropdown__item.hover,
+.el-select-dropdown__item:hover {
+  background: rgba(0, 145, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+.el-select-dropdown__item.selected {
+  background: rgba(0, 145, 255, 0.3) !important;
+  color: #00a8ff !important;
+  font-weight: bold !important;
+}
+
 .app-container {
   height: 100%;
   padding: 10px;
