@@ -1019,7 +1019,7 @@ export default {
           isRunning.value = status.is_running
           completedGroups.value = status.current_group || 0
           currentPhoto.value = status.current_photo || 0
-          
+
           if (isRunning.value) {
             updateFeedingData()
             // 如果后端返回了已运行时间，使用后端的值，否则前端自增
@@ -1121,7 +1121,7 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  background: #001529;
+  background: rgb(30, 63, 102);
   padding: 10px;
   gap: 10px;
   overflow: hidden;
