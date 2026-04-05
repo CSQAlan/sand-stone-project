@@ -21,11 +21,11 @@
 
       <div class="control-actions">
         <el-button
-          type="primary"
           :icon="Brush"
           :loading="cleaning"
           @click="startCleanSand"
           :disabled="cleaning"
+          class="tech-button"
         >
           开始清砂
         </el-button>

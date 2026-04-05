@@ -13,7 +13,7 @@
         <el-select v-model="selectedPort" placeholder="选择串口">
           <el-option v-for="port in availablePorts" :key="port" :label="port" :value="port" />
         </el-select>
-        <el-button type="primary" @click="handleConnect" :loading="connecting"> 连接 </el-button>
+        <el-button @click="handleConnect" :loading="connecting"  class="tech-button" > 连接 </el-button>
       </div>
       <el-button v-else type="danger" @click="handleDisconnect" :loading="disconnecting">
         断开连接
