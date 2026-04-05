@@ -32,19 +32,19 @@
         </div>
       </div>
       <div class="header-right">
-        <el-button type="info" @click="showImageProcessing" class="report-button">
+        <el-button @click="showImageProcessing" class="report-button tech-button tech-button-info">
           <el-icon><Picture /></el-icon>
           图像处理展示
         </el-button>
-        <el-button type="primary" @click="showReport" class="report-button">
+        <el-button @click="showReport" class="report-button tech-button">
           <el-icon><DataAnalysis /></el-icon>
           数据报表
         </el-button>
-        <el-button type="success" @click="showSandGradingReport" class="report-button">
+        <el-button @click="showSandGradingReport" class="report-button tech-button tech-button-success">
           <el-icon><Document /></el-icon>
           砂级配报告
         </el-button>
-        <el-button type="danger" @click="handleLogout">
+        <el-button @click="handleLogout" class="tech-button tech-button-danger">
           <el-icon><SwitchButton /></el-icon>
           退出登录
         </el-button>
@@ -106,18 +106,18 @@
 
               <div class="control-buttons">
                 <el-button
-                  type="primary"
                   @click="initSystem"
                   :loading="initLoading"
                   :disabled="isInitialized || isRunning"
+                  class="tech-button"
                 >
                   初始化系统
                 </el-button>
                 <el-button
-                  type="primary"
                   @click="start_openOrClose_Light"
                   :loading="LightLoading"
                   :disabled="isRunning"
+                  class="tech-button"
                 >
                   {{ light_status }}
                 </el-button>
@@ -125,18 +125,18 @@
 
               <div class="control-buttons">
                 <el-button
-                  type="success"
                   @click="startExperiment"
                   :loading="startLoading"
                   :disabled="!isInitialized || isRunning"
+                  class="tech-button tech-button-success"
                 >
                   开始实验
                 </el-button>
                 <el-button
-                  type="danger"
                   @click="stopExperiment"
                   :loading="stopLoading"
                   :disabled="!isRunning"
+                  class="tech-button tech-button-danger"
                 >
                   停止实验
                 </el-button>
