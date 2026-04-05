@@ -1,0 +1,402 @@
+# 砂级配智能控制系统
+
+<div align="center">
+
+一个基于 Electron + Vue 3 + Python 的砂级配自动化分析与控制系统
+
+![Electron](https://img.shields.io/badge/Electron-35.1.5-blue?logo=electron)
+![Vue](https://img.shields.io/badge/Vue-3.5.13-brightgreen?logo=vue.js)
+![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+</div>
+
+## 📖 项目简介
+
+砂级配智能控制系统是一款集成了图像采集、智能分析、自动化控制的专业砂粒级配检测系统。该系统通过工业相机实时采集砂粒图像，利用计算机视觉算法进行粒径分析，并自动控制相关设备完成砂料配比，实现砂级配检测的自动化、智能化。
+
+### 核心功能
+
+- **🎥 实时图像采集** - 集成海康威视工业相机，支持全局/局部双视图采集
+- **🔬 智能图像分析** - 基于计算机视觉的砂粒识别、分割与特征提取
+- **📊 粒径分布分析** - 自动计算砂粒粒径分布、累计筛余量、MX值等关键指标
+- **⚙️ 设备自动控制** - 集成振动盘、电子秤等设备的自动化控制
+- **📈 数据可视化** - 使用 ECharts 生成专业的分析报表与图表
+- **💾 报告生成** - 支持生成 PDF/Excel 格式的检测报告
+- **🎯 3D设备展示** - 基于 Three.js 的设备3D模型可视化
+
+## 🏗️ 技术架构
+
+### 前端技术栈
+
+- **框架**: Electron 35.1.5 + Vue 3.5.13
+- **UI 组件**: Element Plus 2.9.10
+- **数据可视化**: ECharts 5.6.0
+- **3D 渲染**: Three.js 0.177.0
+- **状态管理**: Vuex 4.1.0
+- **路由管理**: Vue Router 4.5.1
+- **构建工具**: Electron Vite 3.1.0
+
+### 后端技术栈
+
+- **Web 框架**: FastAPI / Flask
+- **图像处理**: OpenCV, NumPy, Pillow
+- **数据分析**: Pandas, SciPy
+- **硬件通信**: PyModbus (Modbus 协议), PySerial (串口通信)
+- **相机 SDK**: 海康威视 MVS SDK
+
+### 系统架构
+
+```
+┌─────────────────────────────────────────────────────┐
+│                   Electron 主进程                    │
+│  ┌──────────────┐  ┌──────────────┐  ┌───────────┐ │
+│  │  IPC 通信    │  │  进程管理    │  │ 窗口管理  │ │
+│  └──────────────┘  └──────────────┘  └───────────┘ │
+└─────────────────────────────────────────────────────┘
+                         │
+        ┌────────────────┼────────────────┐
+        │                                  │
+┌───────▼─────────┐           ┌───────────▼──────────┐
+│   Vue 前端界面   │           │   Python 后端服务    │
+│  ┌────────────┐ │           │  ┌─────────────────┐ │
+│  │ 数据展示   │ │           │  │ 图像处理 API    │ │
+│  │ 设备控制   │ │◄─────────►│  │ 相机控制        │ │
+│  │ 报表生成   │ │  HTTP/API │  │ 设备通信        │ │
+│  └────────────┘ │           │  │ 数据分析        │ │
+└─────────────────┘           │  └─────────────────┘ │
+                               └──────────┬───────────┘
+                                          │
+                    ┌─────────────────────┼─────────────────────┐
+                    │                     │                     │
+            ┌───────▼────────┐   ┌───────▼────────┐   ┌───────▼────────┐
+            │  工业相机      │   │   振动盘       │   │   电子秤       │
+            │  (MVCamera)    │   │  (Modbus)      │   │  (串口/TCP)    │
+            └────────────────┘   └────────────────┘   └────────────────┘
+```
+
+## 📁 项目结构
+
+```
+sand-nb-master/
+├─ src/
+│  ├─ main/                      # Electron 主进程
+│  │  ├─ index.js               # 主进程入口文件
+│  │  └─ python/                # Python 后端服务
+│  │     ├─ api/                # FastAPI 服务
+│  │     │  ├─ sand_api.py      # 砂粒分析 API
+│  │     │  ├─ sand_image_api.py # 图像处理 API
+│  │     │  └─ start_api_server.py # API 服务器启动脚本
+│  │     ├─ control/            # 设备控制模块
+│  │     │  ├─ camera_control.py    # 相机控制
+│  │     │  ├─ process_control.py   # 流程控制
+│  │     │  └─ clean_control.py     # 清洁控制
+│  │     ├─ camera/             # 相机 SDK
+│  │     ├─ config/             # 配置文件
+│  │     ├─ utils/              # 工具函数
+│  │     ├─ main.py            # Python 主程序
+│  │     └─ process_sand_images.py # 图像处理核心
+│  ├─ preload/                  # Electron 预加载脚本
+│  └─ renderer/                 # Vue 前端应用
+│     ├─ src/
+│     │  ├─ api/               # API 接口封装
+│     │  ├─ components/        # Vue 组件
+│     │  │  ├─ dashboard/      # 仪表盘组件
+│     │  │  ├─ CleanSandControl.vue     # 清砂控制
+│     │  │  ├─ DataReport.vue           # 数据报告
+│     │  │  ├─ EquipmentModel.vue       # 设备3D模型
+│     │  │  ├─ ExperimentStatus.vue     # 实验状态
+│     │  │  ├─ SandGradingReport.vue    # 级配报告
+│     │  │  └─ SandImageResults.vue     # 图像结果
+│     │  ├─ views/             # 页面视图
+│     │  │  ├─ Dashboard.vue   # 主仪表盘
+│     │  │  └─ Login.vue       # 登录页面
+│     │  ├─ router/            # 路由配置
+│     │  ├─ store/             # Vuex 状态管理
+│     │  ├─ App.vue            # 根组件
+│     │  └─ main.js            # 前端入口
+│     └─ index.html            # HTML 模板
+├─ public/                      # 静态资源
+├─ resources/                   # 应用资源
+├─ electron.vite.config.mjs    # Electron Vite 配置
+├─ electron-builder.yml        # Electron Builder 配置
+├─ package.json                # 项目依赖配置
+└─ README.md                   # 项目说明文档
+```
+
+## 🚀 快速开始
+
+### 环境要求
+
+- **Node.js**: >= 18.x
+- **pnpm**: >= 8.x (推荐使用 pnpm)
+- **Python**: >= 3.8
+- **操作系统**: Windows 10/11 (推荐), macOS, Linux
+
+### 安装依赖
+
+#### 1. 安装前端依赖
+
+```bash
+# 使用 pnpm (推荐)
+pnpm install
+
+# 或使用 npm
+npm install
+```
+
+#### 2. 安装 Python 依赖
+
+```bash
+cd src/main/python
+pip install -r requirements.txt
+```
+
+主要 Python 依赖包括：
+
+- `fastapi` - Web 框架
+- `uvicorn` - ASGI 服务器
+- `opencv-python` - 图像处理
+- `numpy` - 数值计算
+- `pandas` - 数据分析
+- `pymodbus` - Modbus 通信
+- `pyserial` - 串口通信
+- `pillow` - 图像处理
+
+### 开发模式
+
+#### 启动前端开发服务器
+
+```bash
+pnpm dev
+```
+
+#### 启动 Python API 服务器
+
+```bash
+# 方式1：使用启动脚本 (Windows)
+start-ai-server.bat
+
+# 方式2：手动启动
+cd src/main/python/api
+python start_api_server.py
+```
+
+#### 并行启动（开发环境）
+
+```bash
+# 同时启动前端和后端
+pnpm dev
+```
+
+访问地址：
+
+- **主应用**: Electron 窗口自动打开
+- **API 服务**: http://localhost:8000
+- **API 文档**: http://localhost:8000/docs
+
+## 📦 构建与打包
+
+### 构建应用
+
+```bash
+# 仅构建前端代码
+pnpm build
+```
+
+### 打包应用
+
+```bash
+# Windows 平台
+pnpm build:win
+
+# macOS 平台
+pnpm build:mac
+
+# Linux 平台
+pnpm build:linux
+
+# 构建但不打包（用于调试）
+pnpm build:unpack
+```
+
+打包产物位于 `dist/` 目录。
+
+## 🔧 配置说明
+
+### 前端配置
+
+主要配置文件：
+
+- `electron.vite.config.mjs` - Vite 构建配置
+- `electron-builder.yml` - 应用打包配置
+
+### Python 后端配置
+
+配置文件位于 `src/main/python/config/default_config.py`
+
+关键配置项：
+
+```python
+# 像素到毫米的转换因子
+global_mm_per_pixel = 0.0351  # 全局视图
+local_mm_per_pixel = 0.0066   # 局部视图
+
+# 设备通信配置
+WGD_IP = "192.168.18.4"       # 振动盘IP
+WGD_PORT = 1000               # 振动盘端口
+
+# 砂粒级配区间 (mm)
+main_gradeNames = [0.075, 0.15, 0.3, 0.6, 1.18, 2.36]
+
+# 数据保存路径
+main_data_path = r"H:\features"
+```
+
+## 📚 API 文档
+
+### 主要 API 端点
+
+#### 图像处理
+
+- `POST /api/sand/process-images` - 处理上传的砂粒图像
+- `GET /api/sand/task-status/{task_id}` - 获取处理任务状态
+- `POST /api/sand/process-directory` - 批量处理目录中的图像
+
+#### 数据分析
+
+- `POST /api/sand/analyze` - 分析砂粒数据
+- `POST /api/sand/refine-data` - 精炼图像数据
+- `POST /api/sand/draw-grades` - 绘制砂粒等级分布
+
+详细 API 文档请参考：
+
+- [API_DOCS.md](src/main/python/api/API_DOCS.md)
+- [在线文档](http://localhost:8000/docs) (启动服务后访问)
+
+## 🎯 主要功能模块
+
+### 1. 图像采集与处理
+
+- **双视图采集**: 支持全局视图和局部视图切换
+- **实时预览**: 实时显示相机采集的图像
+- **图像增强**: 自动灰度化、背景减除、对比度增强
+- **砂粒识别**: 基于轮廓检测的砂粒自动识别
+- **粒径测量**: 精确计算每个砂粒的粒径
+
+### 2. 数据分析
+
+- **粒径分布**: 自动计算各级配区间的砂粒分布
+- **累计筛余**: 计算累计筛余百分比
+- **MX 值计算**: 砂粒细度模数自动计算
+- **统计分析**: 均值、标准差等统计指标
+
+### 3. 设备控制
+
+- **振动盘控制**: 通过 Modbus 协议控制振动盘参数
+- **称重系统**: 集成电子秤进行实时称重
+- **流程自动化**: 自动完成取料-称重-采集-清洁循环
+
+### 4. 数据可视化
+
+- **实时图表**: 使用 ECharts 展示粒径分布直方图
+- **进度追踪**: 可视化显示实验进度
+- **3D 模型**: Three.js 渲染设备3D模型
+
+### 5. 报告生成
+
+- **PDF 报告**: 自动生成标准检测报告
+- **Excel 导出**: 导出详细数据表格
+- **图片导出**: 导出分析结果图像
+
+## 🛠️ 开发指南
+
+### 代码规范
+
+项目使用 ESLint + Prettier 进行代码规范管理：
+
+```bash
+# 代码检查
+pnpm lint
+
+# 代码格式化
+pnpm format
+```
+
+### 调试技巧
+
+#### 前端调试
+
+1. 开发模式下按 `F12` 打开 DevTools
+2. 在 `src/renderer` 中使用 `console.log()` 调试
+3. 使用 Vue DevTools 浏览器扩展
+
+#### 后端调试
+
+1. 在 Python 代码中设置断点
+2. 使用 VS Code 的 Python 调试器
+3. 查看 API 日志输出
+
+### 测试
+
+```bash
+# Python API 测试
+cd src/main/python
+python test_async_processing.py
+python test_stop_functionality.py
+```
+
+## 📊 系统截图
+
+
+
+## ⚠️ 注意事项
+
+1. **硬件要求**
+
+   - 需要安装海康威视相机驱动和 SDK
+   - 确保相机、振动盘等设备正确连接
+   - 推荐使用千兆网口连接工业相机
+
+2. **网络配置**
+
+   - 设备IP地址需与配置文件一致
+   - 确保防火墙允许相关端口通信
+
+3. **图像处理**
+
+   - 首次运行需要加载背景模型
+   - 大批量图像处理可能耗时较长
+   - 建议定期清理临时文件
+
+4. **数据备份**
+   - 实验数据会保存在配置的路径下
+   - 建议定期备份重要数据
+
+## 🤝 贡献指南
+
+欢迎提交 Issue 和 Pull Request！
+
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启 Pull Request
+
+## 🙏 致谢
+
+- [Electron](https://www.electronjs.org/) - 跨平台桌面应用框架
+- [Vue.js](https://vuejs.org/) - 渐进式 JavaScript 框架
+- [Element Plus](https://element-plus.org/) - Vue 3 组件库
+- [ECharts](https://echarts.apache.org/) - 数据可视化库
+- [Three.js](https://threejs.org/) - 3D 渲染库
+- [FastAPI](https://fastapi.tiangolo.com/) - 现代 Python Web 框架
+- [OpenCV](https://opencv.org/) - 计算机视觉库
+
+---
+
+<div align="center">
+
+Made with ❤️ by ICDIO Team
+
+</div>
