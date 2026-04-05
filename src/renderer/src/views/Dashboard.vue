@@ -479,6 +479,8 @@ export default {
       }
     }
 
+    const router = useRouter()
+
     // 方法
     const initSystem = async () => {
       try {

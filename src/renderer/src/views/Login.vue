@@ -1,40 +1,75 @@
 <template>
-  <div class="login-page">
+  <div class="login-page" @mousemove="handleMouseMove">
+    <!-- 电子扫描线滤镜 -->
+    <div class="scanlines"></div>
+    
+    <!-- 背景光晕 -->
+    <div class="bg-glow"></div>
+
     <!-- 粒子背景 -->
     <div id="particles-js" class="particles-container"></div>
 
-    <!-- 登录区域 -->
-    <div class="login-container">
+    <!-- 登录区域容器 -->
+    <div 
+      class="login-container" 
+      :style="parallaxStyle"
+    >
+      <!-- 流光边框装饰 -->
+      <div class="border-flow"></div>
+
       <!-- 左侧信息区 -->
       <div class="login-info">
-        <div class="logo-area">
+        <div class="logo-area animate-in" style="--delay: 0.1s">
           <div class="logo-icon">
             <el-icon><Monitor /></el-icon>
+            <div class="icon-glow"></div>
           </div>
         </div>
-        <h1 class="system-title">砂石级配实验监控平台</h1>
-        <p class="system-subtitle">Sand Gradation Experiment Monitoring System</p>
-        <div class="info-features">
+        
+        <div class="title-group animate-in" style="--delay: 0.2s">
+          <h1 class="system-title">砂石级配实验监控平台</h1>
+          <p class="system-subtitle">Sand Gradation Digital Lab System</p>
+        </div>
+
+        <div class="info-features animate-in" style="--delay: 0.3s">
           <div class="feature-item">
             <el-icon><DataAnalysis /></el-icon>
-            <span>实时数据监控</span>
+            <div class="feature-text">
+              <span class="label">实时监控</span>
+              <span class="desc">Real-time Data Flow</span>
+            </div>
           </div>
           <div class="feature-item">
             <el-icon><PictureFilled /></el-icon>
-            <span>高精度图像分析</span>
+            <div class="feature-text">
+              <span class="label">图像识别</span>
+              <span class="desc">AI Vision Analysis</span>
+            </div>
           </div>
           <div class="feature-item">
             <el-icon><Histogram /></el-icon>
-            <span>专业数据报表</span>
+            <div class="feature-text">
+              <span class="label">智能报表</span>
+              <span class="desc">Automated Reports</span>
+            </div>
           </div>
+        </div>
+        
+        <!-- 底部装饰线 -->
+        <div class="info-decoration animate-in" style="--delay: 0.4s">
+          <div class="line"></div>
+          <div class="dots"><span></span><span></span><span></span></div>
         </div>
       </div>
 
       <!-- 右侧登录表单 -->
-      <div class="login-form-area">
+      <div class="login-form-area animate-in" style="--delay: 0.2s">
         <div class="login-form-container">
-          <h2 class="welcome-text">欢迎使用</h2>
-          <p class="login-desc">请使用您的账号密码登录系统</p>
+          <div class="form-header">
+            <h2 class="welcome-text">用户认证</h2>
+            <div class="auth-tag">AUTH REQUIRED</div>
+          </div>
+          <p class="login-desc">请扫描权限凭证或输入访问代码</p>
 
           <el-form
             ref="loginFormRef"
@@ -43,21 +78,21 @@
             class="login-form"
             size="large"
           >
-            <el-form-item prop="username">
+            <el-form-item prop="username" class="animate-in" style="--delay: 0.4s">
               <el-input
                 v-model="loginForm.username"
-                placeholder="用户名"
+                placeholder="USERNAME"
                 :prefix-icon="User"
                 clearable
                 @keyup.enter="handleLogin"
               />
             </el-form-item>
 
-            <el-form-item prop="password">
+            <el-form-item prop="password" class="animate-in" style="--delay: 0.5s">
               <el-input
                 v-model="loginForm.password"
                 type="password"
-                placeholder="密码"
+                placeholder="PASSWORD"
                 :prefix-icon="Lock"
                 show-password
                 clearable
@@ -65,26 +100,30 @@
               />
             </el-form-item>
 
-            <div class="login-options">
-              <el-checkbox v-model="rememberMe">记住我</el-checkbox>
-              <el-button type="text" class="forgot-password">忘记密码?</el-button>
+            <div class="login-options animate-in" style="--delay: 0.6s">
+              <el-checkbox v-model="rememberMe" class="tech-checkbox">记住授权</el-checkbox>
+              <el-button type="text" class="forgot-password">找回密钥</el-button>
             </div>
 
-            <el-form-item>
+            <el-form-item class="animate-in" style="--delay: 0.7s">
               <el-button
                 type="primary"
                 class="login-button"
                 :loading="loading"
                 @click="handleLogin"
               >
-                登录系统
+                <span class="btn-text">确认进入系统</span>
+                <div class="btn-glow"></div>
               </el-button>
             </el-form-item>
           </el-form>
 
-          <div class="login-footer">
-            <p class="version-info">系统版本 V1.0.0</p>
-            <p class="copyright">2025 砂石级配实验监控平台 - 版权所有</p>
+          <div class="login-footer animate-in" style="--delay: 0.8s">
+            <div class="terminal-info">
+              <span>NODE: 127.0.0.1</span>
+              <span>STATUS: READY</span>
+            </div>
+            <p class="copyright">© 2026 DIGITAL SAND LAB - VERSION 1.0.0</p>
           </div>
         </div>
       </div>
@@ -93,7 +132,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import {
@@ -110,6 +149,23 @@ const loginFormRef = ref(null)
 const loading = ref(false)
 const rememberMe = ref(false)
 
+// 鼠标悬浮视差
+const mousePos = reactive({ x: 0, y: 0 })
+const handleMouseMove = (e) => {
+  const { clientX, clientY } = e
+  const { innerWidth, innerHeight } = window
+  mousePos.x = (clientX - innerWidth / 2) / (innerWidth / 2)
+  mousePos.y = (clientY - innerHeight / 2) / (innerHeight / 2)
+}
+
+const parallaxStyle = computed(() => {
+  const rotateY = mousePos.x * 5 // 最大旋转5度
+  const rotateX = -mousePos.y * 5
+  return {
+    transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+  }
+})
+
 // 登录表单数据
 const loginForm = reactive({
   username: '',
@@ -119,12 +175,10 @@ const loginForm = reactive({
 // 表单验证规则
 const loginRules = {
   username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, max: 20, message: '用户名长度应为3-20个字符', trigger: 'blur' }
+    { required: true, message: '请输入用户名', trigger: 'blur' }
   ],
   password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, max: 20, message: '密码长度应为6-20个字符', trigger: 'blur' }
+    { required: true, message: '请输入密码', trigger: 'blur' }
   ]
 }
 
@@ -137,16 +191,13 @@ const handleLogin = () => {
 
     // 模拟登录请求
     setTimeout(() => {
-      // 验证用户名和密码
       if (loginForm.username === 'admin' && loginForm.password === '123456') {
-        // 登录成功
         ElMessage({
-          message: '登录成功，正在进入系统...',
+          message: '身份验证成功，正在同步实验室数据...',
           type: 'success',
-          duration: 2000
+          customClass: 'tech-message'
         })
 
-        // 存储登录状态
         localStorage.setItem('isLoggedIn', 'true')
         if (rememberMe.value) {
           localStorage.setItem('username', loginForm.username)
@@ -154,25 +205,21 @@ const handleLogin = () => {
           localStorage.removeItem('username')
         }
 
-        // 跳转到仪表盘页面
         setTimeout(() => {
           router.push('/dashboard')
         }, 1000)
       } else {
-        // 登录失败
         ElMessage({
-          message: '用户名或密码错误',
+          message: '权限验证失败：无效的凭证',
           type: 'error',
-          duration: 2000
+          customClass: 'tech-message'
         })
       }
-
       loading.value = false
     }, 1500)
   })
 }
 
-// 检查是否有记住的用户名
 const checkRememberedUser = () => {
   const rememberedUsername = localStorage.getItem('username')
   if (rememberedUsername) {
@@ -181,96 +228,48 @@ const checkRememberedUser = () => {
   }
 }
 
-// 初始化粒子背景
 const initParticles = () => {
-  // 动态加载particles.js
   const script = document.createElement('script')
   script.src = 'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js'
   script.onload = () => {
     window.particlesJS('particles-js', {
       particles: {
-        number: {
-          value: 80,
-          density: {
-            enable: true,
-            value_area: 800
-          }
-        },
-        color: {
-          value: '#00a8ff'
-        },
-        shape: {
-          type: 'circle',
-          stroke: {
-            width: 0,
-            color: '#000000'
-          }
-        },
+        number: { value: 60, density: { enable: true, value_area: 800 } },
+        color: { value: '#00a8ff' },
+        shape: { type: 'circle' },
         opacity: {
-          value: 0.3,
+          value: 0.2,
           random: true,
-          anim: {
-            enable: true,
-            speed: 1,
-            opacity_min: 0.1,
-            sync: false
-          }
+          anim: { enable: true, speed: 1, opacity_min: 0.1 }
         },
         size: {
-          value: 3,
+          value: 2,
           random: true,
-          anim: {
-            enable: true,
-            speed: 2,
-            size_min: 0.1,
-            sync: false
-          }
+          anim: { enable: true, speed: 2, size_min: 0.1 }
         },
         line_linked: {
           enable: true,
           distance: 150,
           color: '#00a8ff',
-          opacity: 0.2,
+          opacity: 0.1,
           width: 1
         },
         move: {
           enable: true,
-          speed: 1,
+          speed: 0.6,
           direction: 'none',
           random: true,
-          straight: false,
-          out_mode: 'out',
-          bounce: false,
-          attract: {
-            enable: false,
-            rotateX: 600,
-            rotateY: 1200
-          }
+          out_mode: 'out'
         }
       },
       interactivity: {
         detect_on: 'canvas',
         events: {
-          onhover: {
-            enable: true,
-            mode: 'grab'
-          },
-          onclick: {
-            enable: true,
-            mode: 'push'
-          },
+          onhover: { enable: true, mode: 'grab' },
           resize: true
         },
         modes: {
-          grab: {
-            distance: 140,
-            line_linked: {
-              opacity: 0.5
-            }
-          },
-          push: {
-            particles_nb: 4
-          }
+          grab: { distance: 140, line_linked: { opacity: 0.4 } }
         }
       },
       retina_detect: true
@@ -292,9 +291,41 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #001529 0%, #001f3f 100%);
+  background: #000814;
   position: relative;
   overflow: hidden;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* 扫描线效果 */
+.scanlines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.1) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.02),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.02)
+  );
+  background-size: 100% 3px, 3px 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* 背景光晕 */
+.bg-glow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, #001f3f 0%, transparent 70%);
+  opacity: 0.5;
+  z-index: 2;
 }
 
 .particles-container {
@@ -303,278 +334,301 @@ onMounted(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 3;
 }
 
+/* 登录容器 */
 .login-container {
   display: flex;
   width: 1000px;
   height: 600px;
-  background: rgba(0, 33, 64, 0.4);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+  background: rgba(0, 18, 36, 0.6);
+  backdrop-filter: blur(20px);
+  border-radius: 4px; /* 工业风更偏向直角或微圆角 */
+  border: 1px solid rgba(0, 168, 255, 0.1);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
   overflow: hidden;
-  z-index: 2;
-  animation: fadeIn 0.8s ease-out;
+  z-index: 20;
+  position: relative;
+  transition: transform 0.1s ease-out;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
+/* 流光边框 */
+.border-flow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  border: 1px solid transparent;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  z-index: 21;
+}
+
+.border-flow::before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background: conic-gradient(
+    transparent, 
+    transparent, 
+    transparent, 
+    #00a8ff
+  );
+  animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+  100% { transform: rotate(360deg); }
+}
+
+/* 左侧信息区域 */
+.login-info {
+  flex: 1;
+  padding: 60px 50px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 40, 80, 0.1);
+  border-right: 1px solid rgba(0, 168, 255, 0.1);
+}
+
+.logo-icon {
+  width: 70px;
+  height: 70px;
+  background: rgba(0, 168, 255, 0.05);
+  border: 1px solid rgba(0, 168, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.logo-icon :deep(svg) {
+  font-size: 36px;
+  color: #00a8ff;
+  z-index: 2;
+}
+
+.icon-glow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #00a8ff;
+  filter: blur(15px);
+  opacity: 0.2;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.3; }
+}
+
+.system-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  margin: 30px 0 5px 0;
+  letter-spacing: 3px;
+  background: linear-gradient(to right, #fff, #00a8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.system-subtitle {
+  font-size: 12px;
+  color: rgba(0, 168, 255, 0.6);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.info-features {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.feature-item :deep(svg) {
+  font-size: 20px;
+  color: #00a8ff;
+  opacity: 0.8;
+}
+
+.feature-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-text .label {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.feature-text .desc {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 11px;
+}
+
+.info-decoration {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.info-decoration .line {
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(to right, #00a8ff, transparent);
+}
+
+.info-decoration .dots span {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  background: #00a8ff;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+
+/* 右侧表单区域 */
+.login-form-area {
+  width: 420px;
+  padding: 60px 45px;
+  background: rgba(0, 10, 20, 0.4);
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+
+.welcome-text {
+  font-size: 24px;
+  color: #fff;
+  margin: 0;
+}
+
+.auth-tag {
+  font-size: 10px;
+  color: #00a8ff;
+  padding: 2px 6px;
+  border: 1px solid #00a8ff;
+  border-radius: 2px;
+}
+
+.login-desc {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 40px;
+}
+
+.login-form :deep(.el-input__wrapper) {
+  background: rgba(0, 168, 255, 0.05) !important;
+  border: 1px solid rgba(0, 168, 255, 0.2) !important;
+  box-shadow: none !important;
+  border-radius: 2px;
+}
+
+.login-form :deep(.el-input__wrapper.is-focus) {
+  border-color: #00a8ff !important;
+  background: rgba(0, 168, 255, 0.1) !important;
+}
+
+.login-form :deep(.el-input__inner) {
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.tech-checkbox {
+  --el-checkbox-text-color: rgba(255, 255, 255, 0.5);
+  --el-checkbox-checked-text-color: #00a8ff;
+}
+
+.forgot-password {
+  color: rgba(0, 168, 255, 0.6);
+  font-size: 12px;
+}
+
+.login-button {
+  width: 100%;
+  height: 48px;
+  background: transparent !important;
+  border: 1px solid #00a8ff !important;
+  color: #00a8ff !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.login-button:hover {
+  background: #00a8ff !important;
+  color: #000 !important;
+  box-shadow: 0 0 20px rgba(0, 168, 255, 0.4);
+}
+
+.login-footer {
+  margin-top: 50px;
+}
+
+.terminal-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: rgba(0, 168, 255, 0.3);
+  font-family: monospace;
+  margin-bottom: 5px;
+}
+
+.copyright {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.2);
+  text-align: center;
+}
+
+/* 入场动画 */
+.animate-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideUp 0.8s forwards;
+  animation-delay: var(--delay);
+}
+
+@keyframes slideUp {
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* 左侧信息区域 */
-.login-info {
-  flex: 1;
-  background: linear-gradient(135deg, rgba(0, 168, 255, 0.1) 0%, rgba(0, 145, 234, 0.2) 100%);
-  padding: 60px 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.login-info::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background:
-    radial-gradient(circle at 30% 20%, rgba(0, 168, 255, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 70% 80%, rgba(0, 168, 255, 0.15) 0%, transparent 50%);
-  z-index: -1;
-}
-
-.logo-area {
-  margin-bottom: 30px;
-}
-
-.logo-icon {
-  width: 80px;
-  height: 80px;
-  background: rgba(0, 168, 255, 0.1);
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(0, 168, 255, 0.3);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.logo-icon :deep(svg) {
-  width: 50px;
-  height: 50px;
-  color: #00a8ff;
-  filter: drop-shadow(0 0 10px rgba(0, 168, 255, 0.7));
-}
-
-.system-title {
-  font-size: 28px;
-  font-weight: 600;
-  color: #ffffff;
-  margin: 0 0 10px 0;
-  text-align: center;
-  text-shadow: 0 0 20px rgba(0, 168, 255, 0.5);
-  letter-spacing: 2px;
-}
-
-.system-subtitle {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0 0 50px 0;
-  text-align: center;
-  letter-spacing: 1px;
-}
-
-.info-features {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  margin-top: auto;
-}
-
-.feature-item {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 15px 20px;
-  background: rgba(0, 33, 64, 0.4);
-  border-radius: 12px;
-  border: 1px solid rgba(0, 168, 255, 0.15);
-  transition: all 0.3s ease;
-}
-
-.feature-item:hover {
-  transform: translateX(5px);
-  background: rgba(0, 33, 64, 0.6);
-  border-color: rgba(0, 168, 255, 0.3);
-}
-
-.feature-item :deep(svg) {
-  font-size: 24px;
-  color: #00a8ff;
-}
-
-.feature-item span {
-  font-size: 16px;
-  color: #ffffff;
-  font-weight: 500;
-}
-
-/* 右侧登录表单区域 */
-.login-form-area {
-  width: 450px;
-  background: rgba(0, 24, 48, 0.7);
-  padding: 60px 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.login-form-container {
-  width: 100%;
-}
-
-.welcome-text {
-  font-size: 28px;
-  font-weight: 600;
-  color: #ffffff;
-  margin: 0 0 10px 0;
-}
-
-.login-desc {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.6);
-  margin: 0 0 40px 0;
-}
-
-.login-form {
-  width: 100%;
-}
-
-.login-form :deep(.el-input__wrapper) {
-  background-color: rgba(0, 24, 48, 0.5);
-  box-shadow: none;
-  border: 1px solid rgba(0, 145, 255, 0.15);
-  padding: 12px 15px;
-  transition: all 0.3s ease;
-}
-
-.login-form :deep(.el-input__wrapper:hover),
-.login-form :deep(.el-input__wrapper.is-focus) {
-  border-color: rgba(0, 168, 255, 0.5);
-  box-shadow: 0 0 10px rgba(0, 168, 255, 0.2);
-}
-
-.login-form :deep(.el-input__inner) {
-  color: #e6f7ff;
-  height: 24px;
-  font-size: 16px;
-}
-
-.login-form :deep(.el-input__prefix-icon) {
-  color: #00a8ff;
-  font-size: 18px;
-}
-
-.login-options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.login-options :deep(.el-checkbox__label) {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.login-options :deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
-  background-color: #00a8ff;
-  border-color: #00a8ff;
-}
-
-.forgot-password {
-  color: #00a8ff;
-  font-size: 14px;
-}
-
-.login-button {
-  width: 100%;
-  height: 50px;
-  background: linear-gradient(90deg, #0088cc 0%, #00a8ff 100%);
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  transition: all 0.3s ease;
-  box-shadow: 0 5px 15px rgba(0, 168, 255, 0.3);
-  margin-top: 10px;
-}
-
-.login-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 168, 255, 0.4);
-  background: linear-gradient(90deg, #00a8ff 0%, #33bbff 100%);
-}
-
-.login-button:active {
-  transform: translateY(0);
-}
-
-.login-footer {
-  margin-top: 50px;
-  text-align: center;
-}
-
-.version-info {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
-  margin: 0 0 5px 0;
-}
-
-.copyright {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
-  margin: 0;
-}
-
-/* 响应式设计 */
+/* 响应式调整 */
 @media (max-width: 1024px) {
-  .login-container {
-    width: 90%;
-    height: auto;
-    flex-direction: column;
-  }
-
-  .login-info {
-    padding: 40px 30px;
-  }
-
-  .login-form-area {
-    width: 100%;
-    padding: 40px 30px;
-  }
-}
-
-@media (max-width: 768px) {
-  .login-info {
-    display: none;
-  }
-
-  .login-form-area {
-    border-radius: 16px;
-  }
+  .login-container { width: 95%; height: auto; flex-direction: column; }
+  .login-info { padding: 40px; }
+  .login-form-area { width: 100%; padding: 40px; }
 }
 </style>
