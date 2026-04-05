@@ -297,7 +297,7 @@ app.whenReady().then(() => {
       show: false,
       autoHideMenuBar: true,
       title: '图像处理展示',
-      backgroundColor: '#0a0e27',
+      backgroundColor: 'rgb(30, 63, 102)',
       webPreferences: {
         preload: join(__dirname, '../preload/index.js'),
         sandbox: false,

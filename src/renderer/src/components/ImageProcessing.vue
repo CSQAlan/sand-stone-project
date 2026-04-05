@@ -395,7 +395,7 @@ onMounted(() => {
 .image-processing {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #0a0e27 0%, #1a1e3a 100%);
+  background: rgb(30, 63, 102);
   display: flex;
   flex-direction: column;
   overflow: hidden;

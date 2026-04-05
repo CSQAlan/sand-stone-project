@@ -25,6 +25,7 @@ onMounted(() => {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  background: rgb(30, 63, 102);
 }
 </style>
 
